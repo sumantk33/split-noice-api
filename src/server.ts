@@ -1,15 +1,11 @@
 import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
-import { ulid } from "ulid";
 
 import { errorHandler, formatApiResponse } from "./utils";
 import loggerConfig from "./config/logger";
 
-const fastify = Fastify({
-  logger: loggerConfig,
-  genReqId: () => ulid(),
-});
+const fastify = Fastify(loggerConfig);
 
 // Enable CORS
 fastify.register(cors);

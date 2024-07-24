@@ -1,7 +1,10 @@
-import { FastifyLoggerOptions, FastifyRequest } from "fastify";
+import { FastifyRequest } from "fastify";
+import pino from "pino";
+import { ulid } from "ulid";
 
-const loggerConfig: FastifyLoggerOptions = {
+const pinoConfig = pino({
   level: "info",
+  base: null,
   serializers: {
     res(res) {
       return {
@@ -14,11 +17,16 @@ const loggerConfig: FastifyLoggerOptions = {
       return {
         method: req.method,
         url: req.url,
-        parameters: req.params,
+        params: req.params,
         headers,
       };
     },
   },
+});
+
+const loggerConfig = {
+  logger: pinoConfig,
+  genReqId: () => ulid(),
 };
 
 export default loggerConfig;
