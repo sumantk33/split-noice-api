@@ -46,4 +46,22 @@ const formatApiResponse = (
   };
 };
 
-export { CustomErrorType, formatApiResponse, CustomError, errorHandler };
+/**
+ * 404 handler
+ */
+const routeNotFoundHandler = (request: FastifyRequest, reply: FastifyReply) => {
+  const errorMessage = `Route not found - ${request.url}`;
+  reply.log.error({
+    message: errorMessage,
+    reqId: request.id,
+  });
+  reply.status(404).send(formatApiResponse(null, errorMessage));
+};
+
+export {
+  CustomErrorType,
+  formatApiResponse,
+  CustomError,
+  errorHandler,
+  routeNotFoundHandler,
+};

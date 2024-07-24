@@ -2,7 +2,7 @@ import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
 
-import { errorHandler, formatApiResponse } from "./utils";
+import { errorHandler, formatApiResponse, routeNotFoundHandler } from "./utils";
 import loggerConfig from "./config/logger";
 
 const fastify = Fastify(loggerConfig);
@@ -15,6 +15,9 @@ fastify.register(helmet);
 
 // Add common error handler
 fastify.setErrorHandler(errorHandler);
+
+// 404 handler
+fastify.setNotFoundHandler(routeNotFoundHandler);
 
 fastify.get("/api/healthcheck", async (_, reply: FastifyReply) => {
   reply.status(200).send(formatApiResponse("Server up and running"));
