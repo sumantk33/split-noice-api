@@ -58,10 +58,28 @@ const routeNotFoundHandler = (request: FastifyRequest, reply: FastifyReply) => {
   reply.status(404).send(formatApiResponse(null, errorMessage));
 };
 
+/**
+ * Compression config
+ */
+const compressionConfig = {
+  global: true, // Apply compression globally (default)
+  threshold: 1024, // Only compress responses larger than 1 KB
+  zlibOptions: {
+    level: 9, // Maximum compression level for gzip
+  },
+  brotliOptions: {
+    params: {
+      [require("zlib").constants.BROTLI_PARAM_QUALITY]: 4, // Set Brotli quality
+    },
+  },
+  inflateIfDeflated: true,
+};
+
 export {
   CustomErrorType,
   formatApiResponse,
   CustomError,
   errorHandler,
   routeNotFoundHandler,
+  compressionConfig,
 };
