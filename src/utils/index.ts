@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
+import zlib from "zlib";
 import { STATIC_TEXT } from "./constants";
 
 /**
@@ -30,6 +31,7 @@ const errorHandler = (
 /*
  * API utils
  */
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 const formatApiResponse = (
   data: any = null,
   message?: string,
@@ -69,7 +71,7 @@ const compressionConfig = {
   },
   brotliOptions: {
     params: {
-      [require("zlib").constants.BROTLI_PARAM_QUALITY]: 4, // Set Brotli quality
+      [zlib.constants.BROTLI_PARAM_QUALITY]: 4, // Set Brotli quality
     },
   },
   inflateIfDeflated: true,
