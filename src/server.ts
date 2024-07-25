@@ -2,7 +2,7 @@ import Fastify, { FastifyReply } from "fastify";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
 import compress from "@fastify/compress";
-import routesWrapper from "./routes";
+import routesWrapper from "./modules";
 
 import {
   compressionConfig,

@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
-import userRoutesV1 from "./user.router";
-import groupRoutesV1 from "./group.router";
-import expensesRouter from "./expenses.router";
+import userRoutesV1 from "./user/user.route";
+import groupRoutesV1 from "./groups/groups.route";
+import expensesRouter from "./expenses/expenses.route";
 
 async function routesV1(fastify: FastifyInstance) {
   fastify.register(userRoutesV1, { prefix: "/users" });
