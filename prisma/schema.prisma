@@ -8,12 +8,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum SplitMode {
-  EVENLY
-  BY_SHARES
-  BY_PERCENTAGE
-  BY_AMOUNT
-}
+// Split Types
+// 0 - Evenly
+// 2 - By shares
+// 3 - By percentage
+// 4 - By amount
 
 model User {
   id              Int     @id @default(autoincrement())
@@ -63,8 +62,8 @@ model Transactions {
   id              Int       @id @default(autoincrement())
   expenseId       Int
   userId          Int
-  splitType       SplitMode @default(EVENLY)
-  splitAmount     Int
+  splitType       Int       @default(0)
+  splitAmount     Int       @default(0)
 
   // Establish relationships
   user            User      @relation(fields: [userId], references: [id])
