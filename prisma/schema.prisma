@@ -1,0 +1,72 @@
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum SplitMode {
+  EVENLY
+  BY_SHARES
+  BY_PERCENTAGE
+  BY_AMOUNT
+}
+
+model User {
+  id              Int     @id @default(autoincrement())
+  email           String  @unique
+  name            String
+  groupMembers    GroupMembers[]
+  expenses        Expenses[]
+  transactions    Transactions[]
+}
+
+model Groups {
+  id                Int             @id @default(autoincrement())
+  name              String
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  groupMembers      GroupMembers[]
+  expenses          Expenses[]
+}
+
+model GroupMembers {
+  groupId    Int
+  userId     Int
+
+  // Establish relationships
+  group      Groups  @relation(fields: [groupId], references: [id])
+  user       User    @relation(fields: [userId], references: [id])
+
+  @@id([groupId, userId])
+}
+
+model Expenses {
+  id              Int         @id @default(autoincrement())
+  groupId         Int
+  payerId         Int
+  amount          Int         @default(0)
+  description     String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  transactions    Transactions[]
+
+  // Establish relationships
+  group           Groups  @relation(fields: [groupId], references: [id])
+  user            User    @relation(fields: [payerId], references: [id])
+}
+
+model Transactions {
+  id              Int       @id @default(autoincrement())
+  expenseId       Int
+  userId          Int
+  splitType       SplitMode @default(EVENLY)
+  splitAmount     Int
+
+  // Establish relationships
+  user            User      @relation(fields: [userId], references: [id])
+  expense         Expenses  @relation(fields: [expenseId], references: [id])
+}
