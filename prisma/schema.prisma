@@ -27,7 +27,7 @@ model Groups {
   id                Int             @id @default(autoincrement())
   name              String
   createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  updatedAt         DateTime?        @updatedAt
   groupMembers      GroupMembers[]
   expenses          Expenses[]
 }
@@ -50,7 +50,7 @@ model Expenses {
   amount          Int         @default(0)
   description     String?
   createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  updatedAt       DateTime?    @updatedAt
   transactions    Transactions[]
 
   // Establish relationships
