@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import zlib from "zlib";
 import { STATIC_TEXT } from "./constants";
+import { ulid } from "ulid";
 
 /**
  * Error Utils
@@ -24,8 +25,14 @@ const errorHandler = (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  reply.log.error({ message: error.message, reqId: request.id });
-  reply.status(error.statusCode).send(formatApiResponse());
+  let errorMessageToBeShown = error.message;
+  if (error.statusCode === 429) {
+    errorMessageToBeShown = "Rate limit exceeded, Too many requests";
+  }
+  reply.log.error({ message: errorMessageToBeShown, reqId: request.id });
+  reply
+    .status(error.statusCode || 500)
+    .send(formatApiResponse(null, errorMessageToBeShown));
 };
 
 /*
@@ -39,7 +46,7 @@ const formatApiResponse = (
 ) => {
   const formattedStatus = status ?? !!data;
   const formattedMessage =
-    message ?? (!!data ? "Success" : STATIC_TEXT.GENERIC_ERROR_MESSAGE);
+    message ?? (data ? "Success" : STATIC_TEXT.GENERIC_ERROR_MESSAGE);
 
   return {
     data,
@@ -77,6 +84,12 @@ const compressionConfig = {
   inflateIfDeflated: true,
 };
 
+/**
+ * ULID utils
+ */
+
+const generateUlid = () => ulid();
+
 export {
   CustomErrorType,
   formatApiResponse,
@@ -84,4 +97,5 @@ export {
   errorHandler,
   routeNotFoundHandler,
   compressionConfig,
+  generateUlid,
 };

@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify";
 import pino from "pino";
-import { ulid } from "ulid";
+import { generateUlid } from "../utils";
 
 const pinoConfig = pino({
   level: "info",
@@ -26,7 +26,7 @@ const pinoConfig = pino({
 
 const loggerConfig = {
   logger: pinoConfig,
-  genReqId: () => ulid(),
+  genReqId: generateUlid,
 };
 
 export default loggerConfig;
