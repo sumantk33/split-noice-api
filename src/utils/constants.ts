@@ -1,5 +1,5 @@
 const STATIC_TEXT = {
-  GENERIC_ERROR_MESSAGE: "Internal server error",
+  GENERIC_ERROR_MESSAGE: "Something went wrong!",
 };
 
 const API_STATUS_CODES = {

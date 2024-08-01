@@ -13,8 +13,8 @@ interface CustomErrorType extends Error {
 class CustomError extends Error implements CustomErrorType {
   public statusCode: number;
 
-  constructor(message: string, status?: number) {
-    super(message);
+  constructor(message?: string, status?: number) {
+    super(message ?? STATIC_TEXT.GENERIC_ERROR_MESSAGE);
     this.statusCode = status ?? 500;
     Object.setPrototypeOf(this, CustomError.prototype);
   }
@@ -29,7 +29,7 @@ const errorHandler = (
   if (error.statusCode === 429) {
     errorMessageToBeShown = "Rate limit exceeded, Too many requests";
   }
-  reply.log.error({ message: errorMessageToBeShown, reqId: request.id });
+  reply.log.error({ message: errorMessageToBeShown });
   reply
     .status(error.statusCode || 500)
     .send(formatApiResponse(null, errorMessageToBeShown));

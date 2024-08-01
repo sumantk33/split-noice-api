@@ -24,9 +24,22 @@ const pinoConfig = pino({
   },
 });
 
-const loggerConfig = {
+const FastifyInstanceConfig = {
   logger: pinoConfig,
   genReqId: generateUlid,
+  ajv: {
+    customOptions: {
+      formats: {
+        "number-string": (value: string) =>
+          typeof value === "string" && !isNaN(Number(value)),
+      },
+    },
+  },
 };
 
-export default loggerConfig;
+const createLoggerObj = (action: string, data?: object) => {
+  return { action, data };
+};
+
+export { createLoggerObj };
+export default FastifyInstanceConfig;

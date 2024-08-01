@@ -10,9 +10,9 @@ import {
   formatApiResponse,
   routeNotFoundHandler,
 } from "./utils";
-import loggerConfig from "./config/logger";
+import FastifyInstanceConfig from "./config/logger";
 
-const fastify = Fastify(loggerConfig);
+const fastify = Fastify(FastifyInstanceConfig);
 
 // Enable CORS
 fastify.register(cors);

@@ -8,6 +8,8 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Command to migrate "npx prisma migrate dev --name {migrationMessage}"
+
 // Split Types
 // 0 - Evenly
 // 2 - By shares
