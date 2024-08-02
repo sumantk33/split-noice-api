@@ -1,4 +1,4 @@
-import type { User, GroupMembers, Groups } from "@prisma/client";
+import type { User, GroupMembers, Groups, Transactions } from "@prisma/client";
 
 type UserType = User;
 
@@ -8,4 +8,6 @@ type GroupDetailsType = Groups & {
   groupMembers: GroupMembersType[];
 };
 
-export { GroupMembersType, UserType, GroupDetailsType };
+type TransactionsType = Transactions;
+
+export { GroupMembersType, UserType, GroupDetailsType, TransactionsType };

@@ -20,13 +20,13 @@ const getGroupDetailsById = async (
 };
 
 const createGroup = async (
-  req: FastifyRequest<{ Body: { name: string } }>,
+  req: FastifyRequest<{ Body: { name: string; ownerId: number } }>,
   reply: FastifyReply
 ) => {
-  const { name } = req.body;
-  reply.log.info(createLoggerObj("Creating group", { name }));
+  const { name, ownerId } = req.body;
+  reply.log.info(createLoggerObj("Creating group", { name, ownerId }));
 
-  const result = await createGroupQuery(name);
+  const result = await createGroupQuery(name, ownerId);
   reply.log.info(createLoggerObj("Created group with ID", { result }));
 
   reply
@@ -41,7 +41,7 @@ const deleteGroupById = async (
   const { groupId } = req.params;
   reply.log.info(createLoggerObj("Deleting group", { groupId }));
 
-  await deleteGroupByIdQuery(groupId);
+  await deleteGroupByIdQuery(reply, groupId);
 
   reply.log.info(createLoggerObj("Deleted group with ID", { groupId }));
   reply

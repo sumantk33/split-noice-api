@@ -12,9 +12,9 @@ generator client {
 
 // Split Types
 // 0 - Evenly
-// 2 - By shares
-// 3 - By percentage
-// 4 - By amount
+// 1 - By shares
+// 2 - By percentage
+// 3 - By amount
 
 model User {
   id              Int     @id @default(autoincrement())
